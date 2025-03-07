@@ -11,11 +11,11 @@ export default async function Home() {
   const initialImages = await fetchFeaturedImages(15);
 
   return (
-    <main className="container mx-auto px-4 py-8">
+    <div>
       <h1 className="text-3xl font-bold mb-6 text-gray-900">Featured Images</h1>
       <Suspense fallback={<p className="text-gray-900">Loading gallery...</p>}>
         <InfiniteGallery initialImages={initialImages} />
       </Suspense>
-    </main>
+    </div>
   );
 }
