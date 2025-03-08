@@ -53,7 +53,7 @@ export async function fetchImageById(id: string) {
 
 export async function searchImages(query: string, page = 1) {
   const response = await fetch(
-    `https://api.pexels.com/v1/search?query=${query}&page=${page}&per_page=15`,
+    `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&page=${page}&per_page=15`,
     {
       headers: {
         Authorization: process.env.PEXELS_API_KEY as string,
@@ -66,6 +66,5 @@ export async function searchImages(query: string, page = 1) {
     throw new Error("Failed to search images");
   }
 
-  const data = await response.json();
-  return data;
+  return response.json();
 }

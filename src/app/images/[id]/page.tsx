@@ -1,5 +1,4 @@
-import { fetchImageById } from "@/app/lib/api";
-import ImageDetail from "@/app/components/ImageDetail";
+import PhotoDetailPage, { generateMetadata } from "@/app/components/photo";
 
 interface ImagePageProps {
   params: {
@@ -7,21 +6,8 @@ interface ImagePageProps {
   };
 }
 
-export async function generateMetadata({ params }: ImagePageProps) {
-  const resolvedParams = await params;
-  const image = await fetchImageById(resolvedParams.id);
-  return {
-    title: `Photo by ${image.photographer}`,
-    description: image.alt || `A photo by ${image.photographer}`,
-    openGraph: {
-      images: [{ url: image.src.large }],
-    },
-  };
-}
+export { generateMetadata };
 
-export default async function ImagePage({ params }: ImagePageProps) {
-  const resolvedParams = await params;
-  const image = await fetchImageById(resolvedParams.id);
-
-  return <ImageDetail image={image} />;
+export default function ImagePage(props: ImagePageProps) {
+  return <PhotoDetailPage {...props} />;
 }
