@@ -1,27 +1,58 @@
+import PhotoDetailPage from "@/app/components/PhotoDetail";
 import { fetchImageById } from "@/app/lib/api";
-import ImageDetail from "@/app/components/ImageDetail";
+import type { Metadata } from "next";
 
 interface ImagePageProps {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 }
 
-export async function generateMetadata({ params }: ImagePageProps) {
+// Define generateMetadata directly here to satisfy Next.js 15 constraints
+export async function generateMetadata({
+  params,
+}: ImagePageProps): Promise<Metadata> {
   const resolvedParams = await params;
   const image = await fetchImageById(resolvedParams.id);
+
   return {
-    title: `Photo by ${image.photographer}`,
+    title: `${image.alt || "Photo"} by ${image.photographer}`,
     description: image.alt || `A photo by ${image.photographer}`,
     openGraph: {
-      images: [{ url: image.src.large }],
+      title: `${image.alt || "Photo"} by ${image.photographer}`,
+      description: image.alt || `A photo by ${image.photographer}`,
+      images: [
+        {
+          url: image.src.large,
+          width: image.width,
+          height: image.height,
+          alt: image.alt,
+        },
+      ],
+      type: "article",
+      tags: ["photography", "image"],
     },
+    twitter: {
+      card: "summary_large_image",
+      title: `${image.alt || "Photo"} by ${image.photographer}`,
+      description: image.alt || `A photo by ${image.photographer}`,
+      images: [image.src.large],
+    },
+    authors: [
+      {
+        name: image.photographer,
+        url: image.photographer_url,
+      },
+    ],
   };
 }
 
-export default async function ImagePage({ params }: ImagePageProps) {
-  const resolvedParams = await params;
-  const image = await fetchImageById(resolvedParams.id);
+export default async function ImagePage(props: ImagePageProps) {
+  // Resolve the params before passing to PhotoDetailPage
+  const resolvedParams = await props.params;
 
-  return <ImageDetail image={image} />;
+  // Create a new props object with the resolved params
+  const photoProps = {
+    params: resolvedParams,
+  };
+
+  return <PhotoDetailPage {...photoProps} />;
 }
