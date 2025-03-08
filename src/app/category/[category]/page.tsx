@@ -3,13 +3,12 @@ import { fetchImagesByCategory } from "@/app/lib/api";
 import Gallery from "@/app/components/Gallery";
 
 interface CategoryPageProps {
-  params: {
-    category: string;
-  };
+  params: Promise<{ category: string }>;
 }
 
 export async function generateMetadata({ params }: CategoryPageProps) {
-  const category = params.category;
+  const resolvedParams = await params;
+  const category = resolvedParams.category;
   return {
     title: `${category.charAt(0).toUpperCase() + category.slice(1)} Images`,
     description: `Explore ${category} images from our collection`,
@@ -17,7 +16,8 @@ export async function generateMetadata({ params }: CategoryPageProps) {
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
-  const { category } = params;
+  const resolvedParams = await params;
+  const { category } = resolvedParams;
   const images = await fetchImagesByCategory(category);
 
   return (

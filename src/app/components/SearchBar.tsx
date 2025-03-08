@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function SearchBar() {
+// Inner component that uses useSearchParams
+function SearchBarContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentQuery = searchParams.get("q") || "";
@@ -19,7 +20,7 @@ export default function SearchBar() {
     e.preventDefault();
     if (query.trim()) {
       // Create a new URL with updated search params
-      const params = new URLSearchParams(searchParams);
+      const params = new URLSearchParams(searchParams.toString());
       params.set("q", query);
 
       // Force a refresh by using router.push even if on the same page
@@ -59,5 +60,18 @@ export default function SearchBar() {
         </button>
       </div>
     </form>
+  );
+}
+
+// Main component with Suspense
+export default function SearchBar() {
+  return (
+    <Suspense
+      fallback={
+        <div className="w-full max-w-md mb-8 h-10 bg-gray-200 animate-pulse rounded-lg"></div>
+      }
+    >
+      <SearchBarContent />
+    </Suspense>
   );
 }

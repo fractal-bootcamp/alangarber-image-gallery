@@ -75,7 +75,7 @@ export default function InfiniteSearchResults({
         );
         const data = await response.json();
 
-        if (data.photos.length === 0) {
+        if (!data.photos || data.photos.length === 0) {
           setAllLoaded(true);
         } else {
           setImages((prev) => [...prev, ...data.photos]);

@@ -1,50 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { Metadata } from "next";
 import { fetchImageById } from "@/app/lib/api";
 
 interface PhotoProps {
   params: {
     id: string;
-  };
-}
-
-// Generate metadata for SEO
-export async function generateMetadata({
-  params,
-}: PhotoProps): Promise<Metadata> {
-  const resolvedParams = await params;
-  const image = await fetchImageById(resolvedParams.id);
-
-  return {
-    title: `${image.alt || "Photo"} by ${image.photographer}`,
-    description: image.alt || `A photo by ${image.photographer}`,
-    openGraph: {
-      title: `${image.alt || "Photo"} by ${image.photographer}`,
-      description: image.alt || `A photo by ${image.photographer}`,
-      images: [
-        {
-          url: image.src.large,
-          width: image.width,
-          height: image.height,
-          alt: image.alt,
-        },
-      ],
-      type: "article",
-      tags: ["photography", "image"],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `${image.alt || "Photo"} by ${image.photographer}`,
-      description: image.alt || `A photo by ${image.photographer}`,
-      images: [image.src.large],
-    },
-    authors: [
-      {
-        name: image.photographer,
-        url: image.photographer_url,
-      },
-    ],
   };
 }
 

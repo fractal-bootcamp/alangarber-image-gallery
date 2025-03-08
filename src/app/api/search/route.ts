@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const response = await fetch(
-      `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&page=${page}&per_page=15&size=large`,
+      `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&page=${page}&per_page=15`,
       {
         headers: {
           Authorization: process.env.PEXELS_API_KEY as string,
@@ -27,10 +27,9 @@ export async function GET(request: NextRequest) {
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
+    console.error("Search API error:", error);
     return NextResponse.json(
-      {
-        error: `Failed to search images: ${error instanceof Error ? error.message : "Unknown error"}`,
-      },
+      { error: "Failed to search images" },
       { status: 500 },
     );
   }
