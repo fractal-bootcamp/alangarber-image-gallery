@@ -1,16 +1,29 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SearchBar() {
-  const [query, setQuery] = useState("");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentQuery = searchParams.get("q") || "";
+
+  const [query, setQuery] = useState(currentQuery);
+
+  // Update local state when URL parameters change
+  useEffect(() => {
+    setQuery(currentQuery);
+  }, [currentQuery]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
-      router.push(`/search?q=${encodeURIComponent(query)}`);
+      // Create a new URL with updated search params
+      const params = new URLSearchParams(searchParams);
+      params.set("q", query);
+
+      // Force a refresh by using router.push even if on the same page
+      router.push(`/search?${params.toString()}`);
     }
   };
 

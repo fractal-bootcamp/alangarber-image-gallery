@@ -1,4 +1,6 @@
-import PhotoDetailPage, { generateMetadata } from "@/app/components/photo";
+import PhotoDetailPage, {
+  generateMetadata,
+} from "@/app/components/PhotoDetail";
 
 interface ImagePageProps {
   params: {

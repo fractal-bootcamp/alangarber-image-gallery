@@ -26,6 +26,16 @@ export default function InfiniteSearchResults({
   const [prefetchedImages, setPrefetchedImages] = useState<ImageType[]>([]);
   const prefetchingRef = useRef(false);
 
+  // Reset state when query changes
+  useEffect(() => {
+    setImages(initialImages);
+    setPage(1);
+    setLoading(false);
+    setAllLoaded(initialImages.length >= totalResults);
+    setPrefetchedImages([]);
+    prefetchingRef.current = false;
+  }, [query, initialImages, totalResults]);
+
   // Function to prefetch the next page
   const prefetchNextPage = useCallback(async () => {
     if (prefetchingRef.current || allLoaded) return;
