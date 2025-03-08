@@ -3,6 +3,7 @@ export interface Image {
   src: {
     original?: string;
     large: string;
+    medium: string;
   };
   alt?: string;
   photographer: string;
