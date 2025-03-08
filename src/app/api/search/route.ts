@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const response = await fetch(
-      `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&page=${page}&per_page=15`,
+      `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&page=${page}&per_page=15&size=large`,
       {
         headers: {
           Authorization: process.env.PEXELS_API_KEY as string,

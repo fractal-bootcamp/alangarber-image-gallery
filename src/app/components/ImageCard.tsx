@@ -23,7 +23,7 @@ export default function ImageCard({ image, priority }: ImageCardProps) {
             </div>
           )}
           <Image
-            src={image.src.medium} // Use medium size for consistency
+            src={image.src.large}
             alt={image.alt || "Gallery image"}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
