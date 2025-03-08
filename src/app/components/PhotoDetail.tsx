@@ -52,6 +52,13 @@ export default async function PhotoDetailPage({ params }: PhotoProps) {
   const resolvedParams = await params;
   const image = await fetchImageById(resolvedParams.id);
 
+  // Generate initials from photographer name
+  const initials = image.photographer
+    .split(" ")
+    .map((name: string) => name[0])
+    .join("")
+    .toUpperCase();
+
   return (
     <main className="container max-w-6xl mx-auto px-4 py-8">
       <div className="mb-6">
@@ -85,13 +92,8 @@ export default async function PhotoDetailPage({ params }: PhotoProps) {
           <div className="border-t pt-4">
             <h2 className="text-xl font-semibold mb-4">Photographer</h2>
             <div className="flex items-start gap-4">
-              <div className="h-12 w-12 rounded-full bg-muted overflow-hidden relative">
-                <Image
-                  src="/placeholder.svg?height=100&width=100"
-                  alt={image.photographer}
-                  fill
-                  className="object-cover"
-                />
+              <div className="h-12 w-12 rounded-full bg-blue-500 overflow-hidden relative flex items-center justify-center text-white font-bold">
+                {initials}
               </div>
               <div>
                 <h3 className="font-medium">
