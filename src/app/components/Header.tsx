@@ -17,11 +17,22 @@ export default function Header() {
     <header className="bg-white shadow-sm">
       <div className="container mx-auto px-4 py-4 flex flex-col items-center">
         <div className="w-full flex items-center justify-between mb-4">
-          <div className="flex items-center">
+          {/* Left side - empty or placeholder to maintain center alignment */}
+          <div className="w-20">
+            {/* This empty div helps maintain the centering */}
+          </div>
+
+          {/* Center - Title */}
+          <Link href="/" className="text-3xl font-bold text-gray-900">
+            Image Gallery
+          </Link>
+
+          {/* Right side - Back button or empty space */}
+          <div className="w-20 flex justify-end">
             {showBackButton && (
               <button
                 onClick={() => window.history.back()}
-                className="flex items-center text-blue-600 hover:text-blue-800 mr-4"
+                className="flex items-center text-blue-600 hover:text-blue-800"
                 aria-label="Go back"
               >
                 <svg
@@ -41,9 +52,6 @@ export default function Header() {
                 Back
               </button>
             )}
-            <Link href="/" className="text-3xl font-bold text-gray-900">
-              Image Gallery
-            </Link>
           </div>
         </div>
 
